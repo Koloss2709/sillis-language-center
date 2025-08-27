@@ -3,6 +3,8 @@ import { Mail, Phone, MapPin, Instagram, MessageCircle, MessageSquare } from 'lu
 import { useSiteData } from './DataProvider';
 
 const Contacts = () => {
+  const { contacts } = useSiteData();
+
   return (
     <section id="contacts" className="py-20 bg-gradient-to-b from-[#EDE6D6]/30 to-white relative">
       <div className="container mx-auto px-4">
@@ -31,10 +33,10 @@ const Contacts = () => {
                   <div>
                     <h4 className="font-semibold text-[#0E3F2B] mb-1">Email</h4>
                     <a 
-                      href={`mailto:${mockContacts.email}`}
+                      href={`mailto:${contacts.email}`}
                       className="text-[#333333] hover:text-[#7DB68C] transition-colors duration-200"
                     >
-                      {mockContacts.email}
+                      {contacts.email}
                     </a>
                   </div>
                 </div>
@@ -46,7 +48,7 @@ const Contacts = () => {
                   <div>
                     <h4 className="font-semibold text-[#0E3F2B] mb-1">Телефоны</h4>
                     <div className="space-y-1">
-                      {mockContacts.phones.map((phone, index) => (
+                      {contacts.phones?.map((phone, index) => (
                         <div key={index}>
                           <a 
                             href={`tel:${phone.replace(/\s/g, '')}`}
@@ -59,7 +61,7 @@ const Contacts = () => {
                     </div>
                     <div className="flex space-x-3 mt-3">
                       <a 
-                        href={`tel:${mockContacts.phones[0].replace(/\s/g, '')}`}
+                        href={`tel:${contacts.phones?.[0]?.replace(/\s/g, '') || ''}`}
                         className="bg-[#7DB68C] text-white px-4 py-2 rounded-lg hover:bg-[#0E3F2B] transition-all duration-300 font-medium flex items-center space-x-2"
                       >
                         <Phone size={16} />
@@ -85,7 +87,7 @@ const Contacts = () => {
                   <div>
                     <h4 className="font-semibold text-[#0E3F2B] mb-1">Адрес</h4>
                     <p className="text-[#333333] leading-relaxed">
-                      {mockContacts.address}
+                      {contacts.address}
                     </p>
                   </div>
                 </div>
