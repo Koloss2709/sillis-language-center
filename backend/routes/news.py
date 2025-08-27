@@ -286,6 +286,7 @@ async def delete_news(news_id: str):
     Path Parameters:
     - news_id: ID новости
     """
+    init_db()  # Initialize database connection
     try:
         result = await db.news.delete_one({"id": news_id})
         
