@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Instagram, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, MessageCircle, MessageSquare } from 'lucide-react';
 import { mockContacts } from '../mockData';
 
 const Contacts = () => {
