@@ -62,6 +62,7 @@ async def get_status_checks():
 # Include our new routers
 api_router.include_router(contact_router, tags=["contact"])
 api_router.include_router(news_router, tags=["news"])
+api_router.include_router(admin_router, tags=["admin"])
 
 # Include the main router in the app
 app.include_router(api_router)
