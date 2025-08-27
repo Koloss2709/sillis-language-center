@@ -162,6 +162,7 @@ async def get_news_by_id(news_id: str):
     Path Parameters:
     - news_id: ID новости
     """
+    init_db()  # Initialize database connection
     try:
         news_item = await db.news.find_one({"id": news_id})
         
