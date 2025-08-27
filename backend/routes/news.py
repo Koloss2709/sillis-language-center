@@ -210,6 +210,7 @@ async def update_news(news_id: str, news_update: NewsUpdate):
     
     Body: Любые поля для обновления
     """
+    init_db()  # Initialize database connection
     try:
         # Build update data
         update_data = {"updated_at": datetime.utcnow()}
