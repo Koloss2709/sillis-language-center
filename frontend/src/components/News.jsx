@@ -6,12 +6,17 @@ const News = () => {
   const [news, setNews] = useState(mockNews);
   const [showAdmin, setShowAdmin] = useState(false);
   const [selectedNews, setSelectedNews] = useState(null);
+  const [showAllNews, setShowAllNews] = useState(false);
   const [newArticle, setNewArticle] = useState({
     title: '',
     excerpt: '',
     content: '',
     date: new Date().toISOString().split('T')[0]
   });
+
+  // Show only 6 latest news by default
+  const visibleNews = showAllNews ? news : news.slice(0, 6);
+  const hasMoreNews = news.length > 6;
 
   const openNewsModal = (article) => {
     setSelectedNews(article);
