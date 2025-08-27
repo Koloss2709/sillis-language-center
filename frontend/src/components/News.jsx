@@ -211,7 +211,7 @@ const News = () => {
 
         {/* News Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((article, index) => (
+          {visibleNews.map((article, index) => (
             <div key={article.id} 
                  className={`bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-${(index + 1) * 100}`}>
               <div className="h-48 bg-[#EDE6D6] flex items-center justify-center">
@@ -242,6 +242,18 @@ const News = () => {
             </div>
           ))}
         </div>
+
+        {/* Show More/Less Button */}
+        {hasMoreNews && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => setShowAllNews(!showAllNews)}
+              className="bg-[#0E3F2B] text-white px-8 py-4 rounded-lg hover:bg-[#7DB68C] transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+            >
+              {showAllNews ? `Показать меньше` : `Показать все новости (${news.length})`}
+            </button>
+          </div>
+        )}
 
         {news.length === 0 && (
           <div className="text-center py-12">
