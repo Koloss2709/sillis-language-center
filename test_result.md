@@ -106,63 +106,78 @@ user_problem_statement: "Создание полнофункциональног
 backend:
   - task: "Contact Form API"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/routes/contact.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Implemented POST /api/contact-form endpoint with email notifications, data validation, and MongoDB storage. Includes admin endpoints for viewing submissions."
+        - working: true
+          agent: "testing"
+          comment: "Fixed database initialization issue and tested successfully. POST /api/contact-form accepts valid submissions with proper validation, returns success response with ID. GET /api/contact-submissions works with pagination. Email notifications working (logs show emails would be sent in production). All validation rules working correctly."
 
   - task: "News API CRUD"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/routes/news.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Implemented full CRUD API for news: GET /api/news (with pagination), POST /api/news, PUT /api/news/{id}, DELETE /api/news/{id}"
+        - working: true
+          agent: "testing"
+          comment: "All CRUD operations tested successfully. GET /api/news returns proper pagination with news list. POST /api/news creates news with date validation. GET /api/news/{id} retrieves specific news. PUT /api/news/{id} updates news correctly. DELETE /api/news/{id} removes news. All endpoints return proper JSON responses."
 
   - task: "Email Service"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/email_service.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Implemented email service with HTML templates for admin notifications and client confirmations. Uses SMTP configuration from environment variables."
+        - working: true
+          agent: "testing"
+          comment: "Email service working correctly. Properly handles development environment without SMTP configuration. Logs show both admin notification and client confirmation emails would be sent in production. HTML templates are properly formatted with Yakut language center branding."
 
   - task: "Database Models"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/models.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Created Pydantic models for ContactSubmission, News, and API responses with comprehensive validation rules"
+        - working: true
+          agent: "testing"
+          comment: "All Pydantic models working correctly. ContactSubmissionCreate validates required fields, email format, phone number, and agreement checkbox. NewsCreate validates title, excerpt, content lengths and date format. All validation errors return proper 422 responses."
 
   - task: "Server Integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Updated FastAPI server to include contact and news routers. Added database indexes and proper startup/shutdown handlers"
+        - working: true
+          agent: "testing"
+          comment: "Fixed database initialization issue in routes. Server now starts properly with all routers included. CORS configured correctly. Database indexes created successfully on startup. Root endpoint /api/ returns proper API information. All endpoints properly prefixed with /api."
 
 frontend:
   - task: "Frontend Mock Implementation"
