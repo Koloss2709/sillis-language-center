@@ -46,25 +46,29 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <Header />
-      <Hero />
-      <Mission />
-      <HowWeDo />
-      <Values />
-      <Geography />
-      <ClientSegments />
-      <Services />
-      <WhyUs />
-      <NewPackages />
-      <Cases />
-      <Testimonials />
-      <FAQ />
-      <ContactForm />
-      <News />
-      <Contacts />
-      <Footer />
-    </div>
+    <DataProvider>
+      <DataLoader>
+        <div className="min-h-screen">
+          <Header />
+          <Hero />
+          <Mission />
+          <HowWeDo />
+          <Values />
+          <Geography />
+          <ClientSegments />
+          <Services />
+          <WhyUs />
+          <NewPackages />
+          <Cases />
+          <Testimonials />
+          <FAQ />
+          <ContactForm />
+          <News />
+          <Contacts />
+          <Footer />
+        </div>
+      </DataLoader>
+    </DataProvider>
   );
 };
 
