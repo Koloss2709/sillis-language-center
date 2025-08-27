@@ -3,7 +3,7 @@ import { Target, Heart, Globe } from 'lucide-react';
 
 const Mission = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-[#EDE6D6]/30 relative">
+    <section id="mission" className="py-20 bg-gradient-to-b from-white to-[#EDE6D6]/30 relative">
       {/* Tree roots divider */}
       <div className="absolute top-0 left-0 right-0 h-32 overflow-hidden">
         <svg viewBox="0 0 1200 150" className="w-full h-full">
