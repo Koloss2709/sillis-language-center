@@ -1193,11 +1193,163 @@ const ContactsTab = () => {
   );
 };
 
-const SettingsTab = () => (
-  <div className="bg-white rounded-lg shadow-sm p-6">
-    <h2 className="text-2xl font-bold text-[#0E3F2B] mb-6">Настройки сайта</h2>
-    <p className="text-gray-600">Общие настройки сайта будут реализованы следующими...</p>
-  </div>
-);
+// Settings Tab Component
+const SettingsTab = () => {
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage('');
+
+    // Валидация
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setMessage('Новые пароли не совпадают');
+      setLoading(false);
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 6) {
+      setMessage('Новый пароль должен содержать минимум 6 символов');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${API}/admin/change-password`, {
+        current_password: passwordForm.currentPassword,
+        new_password: passwordForm.newPassword
+      });
+
+      if (response.data.success) {
+        setShowSuccess(true);
+        setMessage(response.data.message);
+        setPasswordForm({
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.detail || 'Ошибка смены пароля');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-6">
+      <h2 className="text-2xl font-bold text-[#0E3F2B] mb-6">Настройки безопасности</h2>
+      
+      <div className="max-w-md">
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Смена пароля администратора</h3>
+          
+          <form onSubmit={handlePasswordChange} className="space-y-4">
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Текущий пароль</label>
+              <input
+                type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) => setPasswordForm({...passwordForm, currentPassword: e.target.value})}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                placeholder="Введите текущий пароль"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Новый пароль</label>
+              <input
+                type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) => setPasswordForm({...passwordForm, newPassword: e.target.value})}
+                required
+                minLength="6"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                placeholder="Минимум 6 символов"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">Подтверждение нового пароля</label>
+              <input
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) => setPasswordForm({...passwordForm, confirmPassword: e.target.value})}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                placeholder="Повторите новый пароль"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-[#0E3F2B] text-white py-3 px-6 rounded-lg hover:bg-[#7DB68C] transition-colors font-medium disabled:opacity-50 flex items-center justify-center space-x-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span>Изменение...</span>
+                </>
+              ) : (
+                <>
+                  <Settings size={20} />
+                  <span>Сменить пароль</span>
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Сообщения */}
+          {message && (
+            <div className={`mt-4 p-4 rounded-lg ${showSuccess ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+              {showSuccess ? (
+                <div>
+                  <div className="flex items-center mb-3">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-green-600 text-sm">✓</span>
+                    </div>
+                    <p className="text-green-800 font-medium">Пароль успешно изменен!</p>
+                  </div>
+                  <div className="bg-gray-100 p-3 rounded border text-sm">
+                    <p className="font-semibold mb-2">Важно! Скопируйте новый хэш пароля:</p>
+                    <code className="text-xs break-all select-all bg-white p-2 rounded border block">
+                      {message.split('ADMIN_PASSWORD_HASH: ')[1]}
+                    </code>
+                    <p className="text-gray-600 mt-2 text-xs">
+                      Обновите переменную <strong>ADMIN_PASSWORD_HASH</strong> в настройках деплоя и перезапустите приложение.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-red-800">{message}</p>
+              )}
+            </div>
+          )}
+
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h4 className="font-semibold text-blue-900 mb-2">Инструкция по обновлению пароля:</h4>
+            <ol className="text-sm text-blue-800 space-y-1">
+              <li>1. Заполните форму выше и нажмите "Сменить пароль"</li>
+              <li>2. Скопируйте полученный хэш пароля</li>
+              <li>3. В настройках Emergent обновите переменную ADMIN_PASSWORD_HASH</li>
+              <li>4. Перезапустите деплой</li>
+              <li>5. Используйте новый пароль для входа</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default AdminPanel;
