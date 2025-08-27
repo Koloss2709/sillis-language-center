@@ -31,7 +31,34 @@ export const mockServices = [
   }
 ];
 
-export const mockPackages = [
+export const mockPackagesB2C = [
+  {
+    id: 1,
+    name: "Интенсивы",
+    description: "Быстрое погружение в язык",
+    features: ["Групповые занятия 3 раза в неделю", "Разговорная практика", "Домашние задания", "Поддержка преподавателя"],
+    popular: false,
+    freeLesson: true
+  },
+  {
+    id: 2,
+    name: "Частные занятия",
+    description: "Индивидуальный подход",
+    features: ["Персональный преподаватель", "Гибкий график", "Индивидуальная программа", "Быстрый прогресс"],
+    popular: true,
+    freeLesson: true
+  },
+  {
+    id: 3,
+    name: "Вебинары",
+    description: "Онлайн обучение",
+    features: ["Доступ из любой точки мира", "Записи занятий", "Интерактивные материалы", "Сертификат участника"],
+    popular: false,
+    freeLesson: true
+  }
+];
+
+export const mockPackagesB2B = [
   {
     id: 1,
     name: "Старт",
