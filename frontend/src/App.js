@@ -70,6 +70,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/" element={<Home />}>
             <Route index element={<Home />} />
           </Route>
