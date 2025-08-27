@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
