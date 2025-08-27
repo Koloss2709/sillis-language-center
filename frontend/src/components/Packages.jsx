@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, Star } from 'lucide-react';
-import { mockPackages } from '../mockData';
+import { mockPackagesB2B } from '../mockData';
 
 const Packages = () => {
   return (
