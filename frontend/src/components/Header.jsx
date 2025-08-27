@@ -16,7 +16,9 @@ const Header = () => {
   const menuItems = [
     { label: 'Услуги', href: '#services' },
     { label: 'О нас', href: '#about' },
+    { label: 'Миссия', href: '#mission' },
     { label: 'Пакеты', href: '#packages' },
+    { label: 'География', href: '#geography' },
     { label: 'Новости', href: '#news' },
     { label: 'Контакты', href: '#contacts' }
   ];
