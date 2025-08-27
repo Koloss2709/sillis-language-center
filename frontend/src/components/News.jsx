@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, Eye, Plus, X } from 'lucide-react';
-import { mockNews } from '../mockData';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const News = () => {
-  const [news, setNews] = useState(mockNews);
+  const [news, setNews] = useState([]);
   const [showAdmin, setShowAdmin] = useState(false);
   const [selectedNews, setSelectedNews] = useState(null);
   const [showAllNews, setShowAllNews] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [newArticle, setNewArticle] = useState({
     title: '',
     excerpt: '',
     content: '',
     date: new Date().toISOString().split('T')[0]
   });
+
+  // Fetch news from API
+  const fetchNews = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/news?limit=50`); // Get more news for show all functionality
+      setNews(response.data.news || []);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      // Fallback to empty array if API fails
+      setNews([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNews();
+  }, []);
 
   // Show only 6 latest news by default
   const visibleNews = showAllNews ? news : news.slice(0, 6);
