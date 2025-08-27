@@ -63,14 +63,12 @@ const HowWeDo = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {methods.map((method, index) => {
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {methods.slice(0, 4).map((method, index) => {
             const IconComponent = method.icon;
             return (
               <div key={index} 
-                   className={`bg-white rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-${(index + 1) * 100} ${
-                     index === 4 ? 'lg:col-span-3 lg:max-w-2xl lg:mx-auto' : ''
-                   }`}>
+                   className={`bg-white rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-${(index + 1) * 100}`}>
                 
                 <div className={`${method.color} w-16 h-16 rounded-xl flex items-center justify-center mb-6`}>
                   <IconComponent className="text-white" size={32} />
@@ -86,6 +84,23 @@ const HowWeDo = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Fifth method centered below */}
+        <div className="flex justify-center mt-8">
+          <div className="bg-white rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-500 max-w-md">
+            <div className={`${methods[4].color} w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto`}>
+              <Sparkles className="text-white" size={32} />
+            </div>
+            
+            <h3 className="text-xl font-bold text-[#0E3F2B] mb-4 text-center">
+              {methods[4].title}
+            </h3>
+            
+            <p className="text-[#333333] leading-relaxed text-center">
+              {methods[4].description}
+            </p>
+          </div>
         </div>
 
         <div className="text-center mt-16">
