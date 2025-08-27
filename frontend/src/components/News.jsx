@@ -227,7 +227,10 @@ const News = () => {
                   {article.excerpt}
                 </p>
                 
-                <button className="text-[#7DB68C] hover:text-[#0E3F2B] font-semibold transition-colors duration-200">
+                <button 
+                  onClick={() => openNewsModal(article)}
+                  className="text-[#7DB68C] hover:text-[#0E3F2B] font-semibold transition-colors duration-200"
+                >
                   Читать далее →
                 </button>
               </div>
