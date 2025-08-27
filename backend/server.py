@@ -14,6 +14,7 @@ from datetime import datetime
 from routes.contact import contact_router
 from routes.news import news_router
 from routes.admin import admin_router
+from routes.content import content_router
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
