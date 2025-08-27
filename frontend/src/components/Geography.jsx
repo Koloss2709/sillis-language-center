@@ -49,94 +49,174 @@ const Geography = () => {
           </div>
         </div>
 
-        {/* Interactive World Map Representation */}
+        {/* Interactive Professional World Map */}
         <div className="relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 mb-12">
-          <div className="relative w-full h-96 overflow-hidden rounded-2xl bg-gradient-to-b from-[#7DB68C]/20 to-[#0E3F2B]/20">
-            {/* Stylized world map with cities */}
-            <svg viewBox="0 0 800 400" className="w-full h-full">
-              {/* Simplified world map outline */}
-              <path d="M100 200 Q200 150 300 200 Q400 180 500 200 Q600 190 700 200" 
-                    stroke="#7DB68C" 
-                    strokeWidth="2" 
-                    fill="none" 
-                    opacity="0.3"/>
-              
-              {/* City markers */}
-              {mockCities.map((city, index) => {
-                // Simplified positioning for demo
-                const positions = [
-                  { x: 380, y: 180 }, // Алматы
-                  { x: 500, y: 160 }, // Пекин
-                  { x: 300, y: 120 }, // СПб
-                  { x: 290, y: 140 }, // Москва
-                  { x: 150, y: 160 }, // Нью-Йорк
-                  { x: 580, y: 140 }, // Южно-Сахалинск
-                  { x: 520, y: 120 }, // Якутск
-                  { x: 480, y: 110 }  // Мирный
-                ];
+          <div className="relative w-full overflow-hidden rounded-2xl bg-gradient-to-b from-[#7DB68C]/20 to-[#0E3F2B]/20 p-4">
+            <div className="relative">
+              {/* Professional World Map SVG */}
+              <div className="relative w-full h-96 flex items-center justify-center">
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_silis-yakut/artifacts/sri98wra_world.svg"
+                  alt="Карта мира"
+                  className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+                />
                 
-                const pos = positions[index] || { x: 400, y: 200 };
-                
-                return (
-                  <g key={city.name} className="cursor-pointer hover:scale-110 transition-transform duration-200">
-                    <circle
-                      cx={pos.x}
-                      cy={pos.y}
-                      r={Math.max(8, Math.min(20, city.students / 8))}
-                      fill="#7DB68C"
-                      stroke="#fff"
-                      strokeWidth="2"
-                      className="animate-pulse"
-                      onClick={() => handleCityClick(city)}
-                    />
-                    <text
-                      x={pos.x}
-                      y={pos.y + 35}
-                      textAnchor="middle"
-                      fill="white"
-                      fontSize="12"
-                      fontWeight="bold"
-                      className="drop-shadow"
-                    >
-                      {city.name}
-                    </text>
-                    <text
-                      x={pos.x}
-                      y={pos.y + 50}
-                      textAnchor="middle"
-                      fill="#7DB68C"
-                      fontSize="10"
-                    >
-                      {city.students} уч.
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* City details popup */}
-          {selectedCity && (
-            <div className="absolute top-4 right-4 bg-white rounded-xl p-6 shadow-2xl max-w-xs animate-fade-in-up">
-              <button
-                onClick={() => setSelectedCity(null)}
-                className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-              >
-                ×
-              </button>
-              <div className="flex items-center space-x-3 mb-4">
-                <MapPin className="text-[#0E3F2B]" size={24} />
-                <div>
-                  <h4 className="font-bold text-[#0E3F2B]">{selectedCity.name}</h4>
-                  <p className="text-sm text-gray-600">{selectedCity.country}</p>
+                {/* City markers overlay */}
+                <div className="absolute inset-0">
+                  <svg viewBox="0 0 800 400" className="w-full h-full">
+                    {/* City markers with proper positioning */}
+                    {mockCities.map((city, index) => {
+                      // More accurate positioning based on world coordinates
+                      const positions = [
+                        { x: 515, y: 180 }, // Алматы (Kazakhstan)
+                        { x: 670, y: 170 }, // Пекин (China)
+                        { x: 460, y: 120 }, // Санкт-Петербург (Russia)
+                        { x: 465, y: 135 }, // Москва (Russia)
+                        { x: 180, y: 160 }, // Нью-Йорк (USA)
+                        { x: 720, y: 185 }, // Южно-Сахалинск (Russia)
+                        { x: 680, y: 110 }, // Якутск (Russia)
+                        { x: 630, y: 115 }  // Мирный (Russia)
+                      ];
+                      
+                      const pos = positions[index] || { x: 400, y: 200 };
+                      const pulseDelay = index * 0.5;
+                      
+                      return (
+                        <g key={city.name} className="cursor-pointer group">
+                          {/* Pulsing ring animation */}
+                          <circle
+                            cx={pos.x}
+                            cy={pos.y}
+                            r="20"
+                            fill="none"
+                            stroke="#7DB68C"
+                            strokeWidth="2"
+                            opacity="0.6"
+                            className="animate-ping"
+                            style={{animationDelay: `${pulseDelay}s`}}
+                          />
+                          
+                          {/* Main city marker */}
+                          <circle
+                            cx={pos.x}
+                            cy={pos.y}
+                            r={Math.max(6, Math.min(16, city.students / 15))}
+                            fill="#7DB68C"
+                            stroke="white"
+                            strokeWidth="3"
+                            className="hover:scale-125 transition-all duration-300 drop-shadow-lg"
+                            onClick={() => handleCityClick(city)}
+                          />
+                          
+                          {/* Student count badge */}
+                          <circle
+                            cx={pos.x + 15}
+                            cy={pos.y - 15}
+                            r="12"
+                            fill="white"
+                            stroke="#0E3F2B"
+                            strokeWidth="2"
+                            className="group-hover:scale-110 transition-transform duration-200"
+                          />
+                          <text
+                            x={pos.x + 15}
+                            y={pos.y - 10}
+                            textAnchor="middle"
+                            fill="#0E3F2B"
+                            fontSize="10"
+                            fontWeight="bold"
+                          >
+                            {city.students}
+                          </text>
+                          
+                          {/* City name on hover */}
+                          <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <rect
+                              x={pos.x - 30}
+                              y={pos.y + 20}
+                              width="60"
+                              height="25"
+                              rx="12"
+                              fill="white"
+                              stroke="#0E3F2B"
+                              strokeWidth="1"
+                              className="drop-shadow-lg"
+                            />
+                            <text
+                              x={pos.x}
+                              y={pos.y + 37}
+                              textAnchor="middle"
+                              fill="#0E3F2B"
+                              fontSize="11"
+                              fontWeight="bold"
+                            >
+                              {city.name}
+                            </text>
+                          </g>
+                        </g>
+                      );
+                    })}
+                    
+                    {/* Connection lines between cities */}
+                    <g className="opacity-30">
+                      <path
+                        d="M515,180 Q590,150 670,170 Q675,140 680,110 Q655,112 630,115"
+                        stroke="#7DB68C"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeDasharray="5,5"
+                        className="animate-pulse"
+                      />
+                      <path
+                        d="M180,160 Q320,140 460,120 Q462,127 465,135"
+                        stroke="#7DB68C"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeDasharray="5,5"
+                        className="animate-pulse animation-delay-400"
+                      />
+                    </g>
+                  </svg>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <Users className="text-[#7DB68C]" size={16} />
-                <span className="text-[#333333]">{selectedCity.students} учеников</span>
-              </div>
             </div>
-          )}
+
+            {/* City details popup */}
+            {selectedCity && (
+              <div className="absolute top-4 right-4 bg-white rounded-xl p-6 shadow-2xl max-w-xs animate-fade-in-up z-10">
+                <button
+                  onClick={() => setSelectedCity(null)}
+                  className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  ×
+                </button>
+                <div className="flex items-center space-x-3 mb-4">
+                  <MapPin className="text-[#0E3F2B]" size={24} />
+                  <div>
+                    <h4 className="font-bold text-[#0E3F2B] text-lg">{selectedCity.name}</h4>
+                    <p className="text-sm text-gray-600">{selectedCity.country}</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between bg-[#EDE6D6] rounded-lg p-3">
+                  <div className="flex items-center space-x-2">
+                    <Users className="text-[#7DB68C]" size={18} />
+                    <span className="text-[#333333] font-medium">{selectedCity.students} учеников</span>
+                  </div>
+                  <div className="text-[#0E3F2B] font-bold text-lg">
+                    {Math.round((selectedCity.students / totalStudents) * 100)}%
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <div className="bg-[#0E3F2B] h-2 rounded-full overflow-hidden">
+                    <div 
+                      className="bg-[#7DB68C] h-full rounded-full transition-all duration-1000"
+                      style={{width: `${(selectedCity.students / totalStudents) * 100}%`}}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Cities Grid */}
