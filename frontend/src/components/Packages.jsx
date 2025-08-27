@@ -30,7 +30,7 @@ const Packages = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {mockPackages.map((pkg, index) => (
+          {mockPackagesB2B.map((pkg, index) => (
             <div key={pkg.id} 
                  className={`relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-${(index + 1) * 200} ${
                    pkg.popular ? 'ring-2 ring-[#7DB68C] transform scale-105' : ''
