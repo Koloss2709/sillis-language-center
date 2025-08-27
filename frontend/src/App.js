@@ -7,6 +7,11 @@ import axios from "axios";
 import Header from './components/Header';
 import Hero from './components/Hero';
 import ClientSegments from './components/ClientSegments';
+import Services from './components/Services';
+import WhyUs from './components/WhyUs';
+import Packages from './components/Packages';
+import Cases from './components/Cases';
+import Testimonials from './components/Testimonials';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
