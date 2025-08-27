@@ -33,23 +33,43 @@ const ContactForm = () => {
     }
 
     setIsSubmitting(true);
+    setSubmitStatus(null);
     
-    // Mock submission - replace with actual API call
-    setTimeout(() => {
-      setSubmitStatus({ 
-        type: 'success', 
-        message: 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.' 
+    try {
+      const response = await axios.post(`${API}/contact-form`, formData);
+      
+      if (response.data.success) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: response.data.message || 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.' 
+        });
+        
+        // Reset form
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          organization: '',
+          comment: '',
+          agree: false
+        });
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      
+      let errorMessage = 'Произошла ошибка при отправке заявки. Попробуйте позже.';
+      
+      if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      }
+      
+      setSubmitStatus({
+        type: 'error',
+        message: errorMessage
       });
+    } finally {
       setIsSubmitting(false);
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        organization: '',
-        comment: '',
-        agree: false
-      });
-    }, 2000);
+    }
   };
 
   return (
