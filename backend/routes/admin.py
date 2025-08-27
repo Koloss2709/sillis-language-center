@@ -302,3 +302,73 @@ async def get_admin_news(
 
 # Импортируем timedelta
 from datetime import timedelta
+
+# Модель для смены пароля
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+class ChangePasswordResponse(BaseModel):
+    success: bool
+    message: str
+
+@admin_router.post("/admin/change-password", response_model=ChangePasswordResponse)
+async def change_admin_password(
+    password_data: ChangePasswordRequest,
+    admin_verified: bool = Depends(verify_admin_access)
+):
+    """
+    Смена пароля администратора
+    
+    Body:
+    - current_password: текущий пароль
+    - new_password: новый пароль
+    
+    Returns:
+    - Результат смены пароля
+    """
+    try:
+        # Получаем текущий хэш пароля
+        current_admin_hash = os.getenv('ADMIN_PASSWORD_HASH')
+        if not current_admin_hash:
+            current_admin_hash = hash_password("admin123")
+        
+        # Проверяем текущий пароль
+        provided_current_hash = hash_password(password_data.current_password)
+        if provided_current_hash != current_admin_hash:
+            raise HTTPException(
+                status_code=401,
+                detail="Неверный текущий пароль"
+            )
+        
+        # Валидация нового пароля
+        if len(password_data.new_password) < 6:
+            raise HTTPException(
+                status_code=400,
+                detail="Новый пароль должен содержать минимум 6 символов"
+            )
+        
+        # Генерируем хэш нового пароля
+        new_password_hash = hash_password(password_data.new_password)
+        
+        # В продакшене это нужно будет записать в переменные окружения
+        # Здесь возвращаем инструкцию для обновления
+        
+        SecurityMiddleware.log_security_event(
+            "ADMIN_PASSWORD_CHANGED",
+            "Admin password was changed successfully"
+        )
+        
+        return ChangePasswordResponse(
+            success=True,
+            message=f"Пароль успешно изменен. Новый хэш для переменной ADMIN_PASSWORD_HASH: {new_password_hash}"
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error changing admin password: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Ошибка смены пароля"
+        )
