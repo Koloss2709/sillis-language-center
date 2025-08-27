@@ -11,15 +11,20 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-[#EDE6D6]/30">
       {/* Tree roots SVG background */}
-      <div className="absolute inset-0 opacity-10">
-        <svg viewBox="0 0 1200 800" className="w-full h-full">
+      <div className="absolute inset-0 opacity-20 overflow-hidden">
+        <svg viewBox="0 0 1200 800" className="w-full h-full animate-roots-flow">
           <defs>
-            <pattern id="roots" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-              <path d="M100 0 Q80 50 60 100 Q40 150 20 200 M100 0 Q120 50 140 100 Q160 150 180 200 M100 50 Q90 100 80 150 Q70 180 60 200 M100 50 Q110 100 120 150 Q130 180 140 200" 
+            <pattern id="roots" x="0" y="0" width="400" height="400" patternUnits="userSpaceOnUse">
+              <path d="M200 0 Q160 100 120 200 Q80 300 40 400 M200 0 Q240 100 280 200 Q320 300 360 400 M200 100 Q180 200 160 300 Q140 360 120 400 M200 100 Q220 200 240 300 Q260 360 280 400" 
                     stroke="#0E3F2B" 
+                    strokeWidth="3" 
+                    fill="none" 
+                    className="animate-roots-grow"/>
+              <path d="M100 200 Q90 250 80 300 Q70 350 60 400 M300 200 Q310 250 320 300 Q330 350 340 400" 
+                    stroke="#7DB68C" 
                     strokeWidth="2" 
                     fill="none" 
-                    opacity="0.3"/>
+                    className="animate-roots-grow animation-delay-200"/>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#roots)" />
