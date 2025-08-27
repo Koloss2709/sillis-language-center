@@ -84,7 +84,6 @@ const ClientSegments = () => {
                     <h3 className="text-2xl font-bold text-[#0E3F2B] mb-2">
                       {segment.title}
                     </h3>
-                    <p className="text-[#7DB68C] font-semibold">{segment.subtitle}</p>
                   </div>
                 </div>
 
