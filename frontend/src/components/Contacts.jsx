@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Instagram, MessageCircle, MessageSquare } from 'lucide-react';
-import { mockContacts } from '../mockData';
+import { useSiteData } from './DataProvider';
 
 const Contacts = () => {
   return (
