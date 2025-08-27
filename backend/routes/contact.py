@@ -183,6 +183,7 @@ async def update_submission_status(
     Body:
     - status: новый статус ("new", "processed", "replied")
     """
+    init_db()  # Initialize database connection
     try:
         valid_statuses = ["new", "processed", "replied"]
         if status not in valid_statuses:
