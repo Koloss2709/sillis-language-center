@@ -5,6 +5,7 @@ import { mockNews } from '../mockData';
 const News = () => {
   const [news, setNews] = useState(mockNews);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [selectedNews, setSelectedNews] = useState(null);
   const [newArticle, setNewArticle] = useState({
     title: '',
     excerpt: '',
