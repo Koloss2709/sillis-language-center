@@ -634,20 +634,241 @@ const SubmissionsTab = () => {
   );
 };
 
-// Placeholder tabs - will implement next
-const PackagesTab = () => (
-  <div className="bg-white rounded-lg shadow-sm p-6">
-    <h2 className="text-2xl font-bold text-[#0E3F2B] mb-6">Управление пакетами услуг</h2>
-    <p className="text-gray-600">Функция редактирования пакетов будет реализована следующей...</p>
-  </div>
-);
+// Packages Tab Component
+const PackagesTab = () => {
+  const [packages, setPackages] = useState({ b2c: [], b2b: [] });
+  const [loading, setLoading] = useState(false);
+  const [editingType, setEditingType] = useState(null); // 'b2c' or 'b2b'
 
-const ContactsTab = () => (
-  <div className="bg-white rounded-lg shadow-sm p-6">
-    <h2 className="text-2xl font-bold text-[#0E3F2B] mb-6">Управление контактами</h2>
-    <p className="text-gray-600">Функция редактирования контактов будет реализована следующей...</p>
-  </div>
-);
+  const fetchPackages = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/content`);
+      setPackages(response.data.packages || { b2c: [], b2b: [] });
+    } catch (error) {
+      console.error('Error fetching packages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
+
+  const updatePackages = async (newPackages) => {
+    try {
+      setLoading(true);
+      await axios.put(`${API}/admin/packages`, newPackages);
+      setPackages(newPackages);
+      setEditingType(null);
+    } catch (error) {
+      console.error('Error updating packages:', error);
+      alert('Ошибка сохранения пакетов');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-6">
+      <h2 className="text-2xl font-bold text-[#0E3F2B] mb-6">Управление пакетами услуг</h2>
+      
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* B2C Packages */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">B2C - Для семей и детей</h3>
+            <button
+              onClick={() => setEditingType('b2c')}
+              className="bg-[#0E3F2B] text-white px-4 py-2 rounded-lg hover:bg-[#7DB68C] transition-colors flex items-center space-x-2"
+            >
+              <Edit size={16} />
+              <span>Редактировать</span>
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {packages.b2c.map((pkg, index) => (
+              <div key={pkg.id} className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <h4 className="font-semibold text-gray-900">{pkg.name}</h4>
+                  {pkg.popular && (
+                    <span className="bg-[#7DB68C] text-white text-xs px-2 py-1 rounded">Популярный</span>
+                  )}
+                  {pkg.freeLesson && (
+                    <span className="bg-[#0E3F2B] text-white text-xs px-2 py-1 rounded ml-2">1 урок FREE</span>
+                  )}
+                </div>
+                <p className="text-gray-600 text-sm mb-2">{pkg.description}</p>
+                <ul className="text-sm text-gray-600">
+                  {pkg.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <span className="text-[#7DB68C] mr-2">•</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* B2B Packages */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">B2B - Для компаний и органов власти</h3>
+            <button
+              onClick={() => setEditingType('b2b')}
+              className="bg-[#0E3F2B] text-white px-4 py-2 rounded-lg hover:bg-[#7DB68C] transition-colors flex items-center space-x-2"
+            >
+              <Edit size={16} />
+              <span>Редактировать</span>
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {packages.b2b.map((pkg, index) => (
+              <div key={pkg.id} className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <h4 className="font-semibold text-gray-900">{pkg.name}</h4>
+                  {pkg.popular && (
+                    <span className="bg-[#7DB68C] text-white text-xs px-2 py-1 rounded">Популярный</span>
+                  )}
+                </div>
+                <p className="text-gray-600 text-sm mb-2">{pkg.description}</p>
+                <ul className="text-sm text-gray-600">
+                  {pkg.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <span className="text-[#7DB68C] mr-2">•</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {editingType && (
+        <PackageEditModal
+          packages={packages}
+          editingType={editingType}
+          onClose={() => setEditingType(null)}
+          onSave={updatePackages}
+        />
+      )}
+    </div>
+  );
+};
+
+// Contacts Tab Component
+const ContactsTab = () => {
+  const [contacts, setContacts] = useState({
+    email: '',
+    phones: [],
+    address: '',
+    social: {}
+  });
+  const [loading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(false);
+
+  const fetchContacts = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/content`);
+      setContacts(response.data.contacts || {});
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const updateContacts = async (newContacts) => {
+    try {
+      setLoading(true);
+      await axios.put(`${API}/admin/contacts`, newContacts);
+      setContacts(newContacts);
+      setEditing(false);
+    } catch (error) {
+      console.error('Error updating contacts:', error);
+      alert('Ошибка сохранения контактов');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-[#0E3F2B]">Управление контактами</h2>
+        <button
+          onClick={() => setEditing(true)}
+          className="bg-[#0E3F2B] text-white px-4 py-2 rounded-lg hover:bg-[#7DB68C] transition-colors flex items-center space-x-2"
+        >
+          <Edit size={20} />
+          <span>Редактировать</span>
+        </button>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Основная информация</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <p className="text-gray-900">{contacts.email}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Телефоны</label>
+                {contacts.phones?.map((phone, index) => (
+                  <p key={index} className="text-gray-900">{phone}</p>
+                ))}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Адрес</label>
+                <p className="text-gray-900">{contacts.address}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Социальные сети</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
+              <p className="text-gray-900">@{contacts.social?.instagram}</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Telegram</label>
+              <p className="text-gray-900">{contacts.social?.telegram}</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">VKontakte</label>
+              <p className="text-gray-900">{contacts.social?.vk}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {editing && (
+        <ContactEditModal
+          contacts={contacts}
+          onClose={() => setEditing(false)}
+          onSave={updateContacts}
+        />
+      )}
+    </div>
+  );
+};
 
 const SettingsTab = () => (
   <div className="bg-white rounded-lg shadow-sm p-6">
