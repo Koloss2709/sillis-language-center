@@ -45,7 +45,11 @@ const Home = () => {
       <Packages />
       <Cases />
       <Testimonials />
-      {/* More components will be added here */}
+      <FAQ />
+      <ContactForm />
+      <News />
+      <Contacts />
+      <Footer />
     </div>
   );
 };
