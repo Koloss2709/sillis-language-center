@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Check, Star, Gift, Users, Building } from 'lucide-react';
-import { mockPackagesB2C, mockPackagesB2B } from '../mockData';
+import { useSiteData } from './DataProvider';
 
 const NewPackages = () => {
   const [activeTab, setActiveTab] = useState('b2c');
