@@ -13,6 +13,14 @@ const News = () => {
     date: new Date().toISOString().split('T')[0]
   });
 
+  const openNewsModal = (article) => {
+    setSelectedNews(article);
+  };
+
+  const closeNewsModal = () => {
+    setSelectedNews(null);
+  };
+
   const handleAddNews = (e) => {
     e.preventDefault();
     const article = {
