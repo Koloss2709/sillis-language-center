@@ -46,9 +46,13 @@ const Home = () => {
       <ClientSegments />
       <Services />
       <WhyUs />
-      <Packages />
+      <NewPackages />
       <Cases />
       <Testimonials />
+      <Mission />
+      <HowWeDo />
+      <Values />
+      <Geography />
       <FAQ />
       <ContactForm />
       <News />
