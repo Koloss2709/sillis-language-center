@@ -146,6 +146,329 @@ const AdminPanel = ({ onLogout }) => {
   );
 };
 
+// Package Edit Modal Component
+const PackageEditModal = ({ packages, editingType, onClose, onSave }) => {
+  const [editedPackages, setEditedPackages] = useState({
+    ...packages,
+    [editingType]: packages[editingType].map(pkg => ({ ...pkg }))
+  });
+  const [loading, setLoading] = useState(false);
+
+  const updatePackage = (index, field, value) => {
+    const newPackages = { ...editedPackages };
+    newPackages[editingType][index][field] = value;
+    setEditedPackages(newPackages);
+  };
+
+  const updatePackageFeatures = (index, features) => {
+    const newPackages = { ...editedPackages };
+    newPackages[editingType][index].features = features.split('\n').filter(f => f.trim());
+    setEditedPackages(newPackages);
+  };
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await onSave(editedPackages);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-[#0E3F2B]">
+              Редактирование пакетов {editingType === 'b2c' ? 'B2C' : 'B2B'}
+            </h3>
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+              <X size={24} />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-6">
+          {editedPackages[editingType].map((pkg, index) => (
+            <div key={pkg.id} className="border border-gray-200 rounded-lg p-6">
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Название пакета</label>
+                  <input
+                    type="text"
+                    value={pkg.name}
+                    onChange={(e) => updatePackage(index, 'name', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Описание</label>
+                  <input
+                    type="text"
+                    value={pkg.description}
+                    onChange={(e) => updatePackage(index, 'description', e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2">Особенности (по одной на строку)</label>
+                <textarea
+                  value={pkg.features.join('\n')}
+                  onChange={(e) => updatePackageFeatures(index, e.target.value)}
+                  rows="4"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C] resize-none"
+                  placeholder="Особенность 1&#10;Особенность 2&#10;..."
+                ></textarea>
+              </div>
+
+              <div className="flex items-center space-x-6">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={pkg.popular}
+                    onChange={(e) => updatePackage(index, 'popular', e.target.checked)}
+                    className="w-4 h-4 text-[#7DB68C] border-gray-300 rounded focus:ring-[#7DB68C]"
+                  />
+                  <span className="text-gray-700">Популярный пакет</span>
+                </label>
+                {editingType === 'b2c' && (
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={pkg.freeLesson || false}
+                      onChange={(e) => updatePackage(index, 'freeLesson', e.target.checked)}
+                      className="w-4 h-4 text-[#7DB68C] border-gray-300 rounded focus:ring-[#7DB68C]"
+                    />
+                    <span className="text-gray-700">1 урок бесплатно</span>
+                  </label>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="p-6 border-t border-gray-200">
+          <div className="flex space-x-4">
+            <button
+              onClick={handleSave}
+              disabled={loading}
+              className="flex-1 bg-[#0E3F2B] text-white py-3 px-6 rounded-lg hover:bg-[#7DB68C] transition-colors font-medium disabled:opacity-50 flex items-center justify-center space-x-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span>Сохранение...</span>
+                </>
+              ) : (
+                <>
+                  <Save size={20} />
+                  <span>Сохранить изменения</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              className="flex-1 border border-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            >
+              Отмена
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Contact Edit Modal Component  
+const ContactEditModal = ({ contacts, onClose, onSave }) => {
+  const [editedContacts, setEditedContacts] = useState({
+    email: contacts.email || '',
+    phones: [...(contacts.phones || [])],
+    address: contacts.address || '',
+    social: {
+      instagram: contacts.social?.instagram || '',
+      telegram: contacts.social?.telegram || '',
+      vk: contacts.social?.vk || ''
+    }
+  });
+  const [loading, setLoading] = useState(false);
+
+  const updatePhone = (index, value) => {
+    const newPhones = [...editedContacts.phones];
+    newPhones[index] = value;
+    setEditedContacts({ ...editedContacts, phones: newPhones });
+  };
+
+  const addPhone = () => {
+    setEditedContacts({
+      ...editedContacts,
+      phones: [...editedContacts.phones, '']
+    });
+  };
+
+  const removePhone = (index) => {
+    const newPhones = editedContacts.phones.filter((_, i) => i !== index);
+    setEditedContacts({ ...editedContacts, phones: newPhones });
+  };
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await onSave(editedContacts);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-[#0E3F2B]">Редактирование контактов</h3>
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+              <X size={24} />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6 space-y-6">
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Email</label>
+            <input
+              type="email"
+              value={editedContacts.email}
+              onChange={(e) => setEditedContacts({ ...editedContacts, email: e.target.value })}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+              placeholder="example@example.com"
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-gray-700 font-medium">Телефоны</label>
+              <button
+                onClick={addPhone}
+                className="text-[#0E3F2B] hover:text-[#7DB68C] transition-colors"
+              >
+                <Plus size={20} />
+              </button>
+            </div>
+            <div className="space-y-2">
+              {editedContacts.phones.map((phone, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => updatePhone(index, e.target.value)}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                    placeholder="+7 (999) 123-45-67"
+                  />
+                  {editedContacts.phones.length > 1 && (
+                    <button
+                      onClick={() => removePhone(index)}
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">Адрес</label>
+            <textarea
+              value={editedContacts.address}
+              onChange={(e) => setEditedContacts({ ...editedContacts, address: e.target.value })}
+              rows="3"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C] resize-none"
+              placeholder="г. Якутск, ул. ..."
+            ></textarea>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-4">Социальные сети</label>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Instagram (без @)</label>
+                <input
+                  type="text"
+                  value={editedContacts.social.instagram}
+                  onChange={(e) => setEditedContacts({
+                    ...editedContacts,
+                    social: { ...editedContacts.social, instagram: e.target.value }
+                  })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                  placeholder="username"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">Telegram</label>
+                <input
+                  type="url"
+                  value={editedContacts.social.telegram}
+                  onChange={(e) => setEditedContacts({
+                    ...editedContacts,
+                    social: { ...editedContacts.social, telegram: e.target.value }
+                  })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                  placeholder="https://t.me/username"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-600 mb-1">VKontakte</label>
+                <input
+                  type="url"
+                  value={editedContacts.social.vk}
+                  onChange={(e) => setEditedContacts({
+                    ...editedContacts,
+                    social: { ...editedContacts.social, vk: e.target.value }
+                  })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7DB68C]"
+                  placeholder="https://vk.com/username"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-6 border-t border-gray-200">
+          <div className="flex space-x-4">
+            <button
+              onClick={handleSave}
+              disabled={loading}
+              className="flex-1 bg-[#0E3F2B] text-white py-3 px-6 rounded-lg hover:bg-[#7DB68C] transition-colors font-medium disabled:opacity-50 flex items-center justify-center space-x-2"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  <span>Сохранение...</span>
+                </>
+              ) : (
+                <>
+                  <Save size={20} />
+                  <span>Сохранить изменения</span>
+                </>
+              )}
+            </button>
+            <button
+              onClick={onClose}
+              className="flex-1 border border-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            >
+              Отмена
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Dashboard Tab Component
 const DashboardTab = ({ stats, loading }) => {
   const statCards = [
