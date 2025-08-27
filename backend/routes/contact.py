@@ -115,11 +115,11 @@ async def submit_contact_form(
         
         # Prepare email data
         email_data = EmailData(
-            name=submission.name,
-            phone=submission.phone,
-            email=submission.email,
-            organization=submission.organization,
-            comment=submission.comment,
+            name=submission.name.strip(),
+            phone=clean_phone,
+            email=clean_email,
+            organization=submission.organization.strip() if submission.organization else None,
+            comment=submission.comment.strip() if submission.comment else None,
             created_at=submission_data.created_at
         )
         
