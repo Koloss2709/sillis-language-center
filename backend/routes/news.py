@@ -108,6 +108,7 @@ async def create_news(news_data: NewsCreate):
     - content: полное содержание
     - date: дата публикации (YYYY-MM-DD)
     """
+    init_db()  # Initialize database connection
     try:
         # Parse date
         try:
