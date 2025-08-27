@@ -59,16 +59,46 @@ async def submit_contact_form(
     """
     init_db()  # Initialize database connection
     try:
+        # Проверяем размер запроса
+        content_length = int(request.headers.get('content-length', 0))
+        SecurityMiddleware.validate_request_size(content_length)
+        
+        # Дополнительная валидация и санитизация
+        try:
+            # Валидируем email
+            clean_email = validate_email(submission.email)
+            
+            # Валидируем телефон  
+            clean_phone = validate_phone(submission.phone)
+            
+            # Проверяем длины полей
+            if len(submission.name) > MAX_NAME_LENGTH:
+                raise ValueError(f"Имя слишком длинное (максимум {MAX_NAME_LENGTH} символов)")
+            
+            if submission.organization and len(submission.organization) > MAX_ORGANIZATION_LENGTH:
+                raise ValueError(f"Название организации слишком длинное (максимум {MAX_ORGANIZATION_LENGTH} символов)")
+                
+            if submission.comment and len(submission.comment) > MAX_COMMENT_LENGTH:
+                raise ValueError(f"Комментарий слишком длинный (максимум {MAX_COMMENT_LENGTH} символов)")
+                
+        except ValueError as ve:
+            SecurityMiddleware.log_security_event(
+                "FORM_VALIDATION_FAILED", 
+                str(ve), 
+                request.client.host if request.client else "unknown"
+            )
+            raise HTTPException(status_code=400, detail=str(ve))
+        
         # Get client IP address
         client_ip = request.client.host if request.client else None
         
-        # Create submission object
+        # Create submission object with sanitized data
         submission_data = ContactSubmission(
-            name=submission.name,
-            phone=submission.phone,
-            email=submission.email,
-            organization=submission.organization,
-            comment=submission.comment,
+            name=submission.name.strip(),
+            phone=clean_phone,
+            email=clean_email,
+            organization=submission.organization.strip() if submission.organization else None,
+            comment=submission.comment.strip() if submission.comment else None,
             agree=submission.agree,
             ip_address=client_ip,
             created_at=datetime.utcnow()
