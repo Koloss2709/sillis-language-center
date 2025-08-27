@@ -12,6 +12,14 @@ from models import (
     NewsResponse,
     NewsListResponse
 )
+from security import (
+    sanitize_dict,
+    sanitize_string,
+    validate_news_update_fields,
+    MAX_TITLE_LENGTH,
+    MAX_EXCERPT_LENGTH,
+    MAX_CONTENT_LENGTH
+)
 
 logger = logging.getLogger(__name__)
 
