@@ -12,6 +12,11 @@ import WhyUs from './components/WhyUs';
 import Packages from './components/Packages';
 import Cases from './components/Cases';
 import Testimonials from './components/Testimonials';
+import FAQ from './components/FAQ';
+import ContactForm from './components/ContactForm';
+import News from './components/News';
+import Contacts from './components/Contacts';
+import Footer from './components/Footer';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
