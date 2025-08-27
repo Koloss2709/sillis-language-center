@@ -4,8 +4,9 @@ import { useSiteData } from './DataProvider';
 
 const NewPackages = () => {
   const [activeTab, setActiveTab] = useState('b2c');
+  const { packages } = useSiteData();
 
-  const currentPackages = activeTab === 'b2c' ? mockPackagesB2C : mockPackagesB2B;
+  const currentPackages = activeTab === 'b2c' ? packages.b2c : packages.b2b;
 
   return (
     <section id="packages" className="py-20 relative bg-gradient-to-b from-[#EDE6D6]/30 to-white">
