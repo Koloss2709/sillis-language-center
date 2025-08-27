@@ -159,6 +159,51 @@ const News = () => {
           </div>
         )}
 
+        {/* News Detail Modal */}
+        {selectedNews && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="relative">
+                <div className="h-64 bg-[#EDE6D6] flex items-center justify-center">
+                  <Eye className="text-[#7DB68C]" size={64} />
+                </div>
+                <button
+                  onClick={closeNewsModal}
+                  className="absolute top-4 right-4 bg-white text-[#333333] p-2 rounded-full hover:bg-[#EDE6D6] transition-colors shadow-lg"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="p-8">
+                <div className="flex items-center text-[#AAAAAA] text-sm mb-4">
+                  <Calendar size={16} className="mr-2" />
+                  {formatDate(selectedNews.date)}
+                </div>
+                
+                <h2 className="text-3xl font-bold text-[#0E3F2B] mb-6">
+                  {selectedNews.title}
+                </h2>
+                
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-[#333333] leading-relaxed text-lg whitespace-pre-line">
+                    {selectedNews.content}
+                  </p>
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-[#EDE6D6]">
+                  <button
+                    onClick={closeNewsModal}
+                    className="bg-[#0E3F2B] text-white px-6 py-3 rounded-lg hover:bg-[#7DB68C] transition-all duration-300 font-semibold"
+                  >
+                    Закрыть
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* News Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {news.map((article, index) => (
