@@ -94,7 +94,6 @@ const Contacts = () => {
               </div>
             </div>
 
-            {/* Social Media */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover-lift">
               <h3 className="text-2xl font-bold text-[#0E3F2B] mb-6">
                 Социальные сети
@@ -102,7 +101,7 @@ const Contacts = () => {
               
               <div className="grid grid-cols-3 gap-4">
                 <a
-                  href={`https://instagram.com/${mockContacts.social.instagram}`}
+                  href={`https://instagram.com/${contacts.social?.instagram}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gradient-to-br from-purple-500 to-pink-500 text-white p-4 rounded-xl text-center hover:scale-105 transition-transform duration-200"
@@ -112,7 +111,7 @@ const Contacts = () => {
                 </a>
 
                 <a
-                  href={mockContacts.social.telegram}
+                  href={contacts.social?.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-blue-500 text-white p-4 rounded-xl text-center hover:scale-105 transition-transform duration-200"
@@ -122,7 +121,7 @@ const Contacts = () => {
                 </a>
 
                 <a
-                  href={mockContacts.social.vk}
+                  href={contacts.social?.vk}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-blue-600 text-white p-4 rounded-xl text-center hover:scale-105 transition-transform duration-200"
