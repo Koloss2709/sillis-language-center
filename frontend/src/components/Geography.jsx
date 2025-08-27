@@ -12,7 +12,7 @@ const Geography = () => {
   const totalStudents = mockCities.reduce((sum, city) => sum + city.students, 0);
 
   return (
-    <section className="py-20 bg-[#0E3F2B] relative overflow-hidden">
+    <section id="geography" className="py-20 bg-[#0E3F2B] relative overflow-hidden">
       {/* Decorative background */}
       <div className="absolute inset-0 opacity-5">
         <svg viewBox="0 0 1200 400" className="w-full h-full animate-roots-flow">
