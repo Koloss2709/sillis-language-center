@@ -104,33 +104,34 @@ const Geography = () => {
                             fill="#7DB68C"
                             stroke="white"
                             strokeWidth="3"
-                            className="hover:scale-125 transition-all duration-300 drop-shadow-lg"
+                            className="transition-all duration-300 drop-shadow-lg group-hover:fill-[#0E3F2B]"
                             onClick={() => handleCityClick(city)}
                           />
                           
-                          {/* Student count badge */}
-                          <circle
-                            cx={pos.x + 15}
-                            cy={pos.y - 15}
-                            r="12"
-                            fill="white"
-                            stroke="#0E3F2B"
-                            strokeWidth="2"
-                            className="group-hover:scale-110 transition-transform duration-200"
-                          />
-                          <text
-                            x={pos.x + 15}
-                            y={pos.y - 10}
-                            textAnchor="middle"
-                            fill="#0E3F2B"
-                            fontSize="10"
-                            fontWeight="bold"
-                          >
-                            {city.students}
-                          </text>
+                          {/* Student count badge - moves with marker */}
+                          <g className="group-hover:scale-110 transition-transform duration-300" style={{transformOrigin: `${pos.x + 15}px ${pos.y - 15}px`}}>
+                            <circle
+                              cx={pos.x + 15}
+                              cy={pos.y - 15}
+                              r="12"
+                              fill="white"
+                              stroke="#0E3F2B"
+                              strokeWidth="2"
+                            />
+                            <text
+                              x={pos.x + 15}
+                              y={pos.y - 10}
+                              textAnchor="middle"
+                              fill="#0E3F2B"
+                              fontSize="10"
+                              fontWeight="bold"
+                            >
+                              {city.students}
+                            </text>
+                          </g>
                           
                           {/* City name on hover */}
-                          <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{transformOrigin: `${pos.x}px ${pos.y + 32}px`}}>
                             <rect
                               x={pos.x - 30}
                               y={pos.y + 20}
