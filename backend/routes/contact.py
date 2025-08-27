@@ -48,6 +48,7 @@ async def submit_contact_form(
     - Отправляет email уведомления
     - Возвращает подтверждение
     """
+    init_db()  # Initialize database connection
     try:
         # Get client IP address
         client_ip = request.client.host if request.client else None
