@@ -49,6 +49,7 @@ async def get_news(
     - skip: пропустить новости (для пагинации)
     - published: показывать только опубликованные (default: true)
     """
+    init_db()  # Initialize database connection
     try:
         # Build query filter
         query = {}
