@@ -57,12 +57,24 @@ const Contacts = () => {
                         </div>
                       ))}
                     </div>
-                    <a 
-                      href={`tel:${mockContacts.phones[0].replace(/\s/g, '')}`}
-                      className="inline-block mt-3 bg-[#7DB68C] text-white px-4 py-2 rounded-lg hover:bg-[#0E3F2B] transition-all duration-300 font-medium"
-                    >
-                      Позвонить
-                    </a>
+                    <div className="flex space-x-3 mt-3">
+                      <a 
+                        href={`tel:${mockContacts.phones[0].replace(/\s/g, '')}`}
+                        className="bg-[#7DB68C] text-white px-4 py-2 rounded-lg hover:bg-[#0E3F2B] transition-all duration-300 font-medium flex items-center space-x-2"
+                      >
+                        <Phone size={16} />
+                        <span>Позвонить</span>
+                      </a>
+                      <a 
+                        href="https://wa.me/79649767660"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-all duration-300 font-medium flex items-center space-x-2"
+                      >
+                        <MessageSquare size={16} />
+                        <span>WhatsApp</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
 
