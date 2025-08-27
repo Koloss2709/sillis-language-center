@@ -22,6 +22,9 @@ import News from './components/News';
 import Contacts from './components/Contacts';
 import Footer from './components/Footer';
 
+// Pages
+import AdminPage from './pages/AdminPage';
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
