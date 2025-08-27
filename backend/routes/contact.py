@@ -135,6 +135,7 @@ async def get_contact_submissions(
     - limit: максимальное количество записей
     - status: фильтр по статусу ("new", "processed", "replied")
     """
+    init_db()  # Initialize database connection
     try:
         # Build query filter
         query = {}
