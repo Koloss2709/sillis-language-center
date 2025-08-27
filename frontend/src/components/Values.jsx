@@ -56,14 +56,12 @@ const Values = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {values.map((value, index) => {
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {values.slice(0, 4).map((value, index) => {
             const IconComponent = value.icon;
             return (
               <div key={index} 
-                   className={`bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-${(index + 1) * 100} ${
-                     index === 4 ? 'lg:col-span-3 lg:max-w-2xl lg:mx-auto' : ''
-                   }`}>
+                   className={`bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-${(index + 1) * 100}`}>
                 
                 <div className="bg-[#0E3F2B] w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                   <IconComponent className="text-white" size={32} />
@@ -79,6 +77,23 @@ const Values = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Fifth value centered below */}
+        <div className="flex justify-center mt-8">
+          <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover-lift animate-fade-in-up animation-delay-500 max-w-md">
+            <div className="bg-[#0E3F2B] w-16 h-16 rounded-xl flex items-center justify-center mb-6 mx-auto">
+              <Smile className="text-white" size={32} />
+            </div>
+            
+            <h3 className="text-2xl font-bold text-[#0E3F2B] mb-4 text-center">
+              {values[4].title}
+            </h3>
+            
+            <p className="text-[#333333] leading-relaxed text-center">
+              {values[4].description}
+            </p>
+          </div>
         </div>
 
         <div className="text-center mt-16">
