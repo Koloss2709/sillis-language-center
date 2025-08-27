@@ -49,21 +49,24 @@ const News = () => {
     setSelectedNews(null);
   };
 
-  const handleAddNews = (e) => {
+  const handleAddNews = async (e) => {
     e.preventDefault();
-    const article = {
-      id: news.length + 1,
-      ...newArticle,
-      image: "/api/placeholder/400/250"
-    };
-    setNews([article, ...news]);
-    setNewArticle({
-      title: '',
-      excerpt: '',
-      content: '',
-      date: new Date().toISOString().split('T')[0]
-    });
-    setShowAdmin(false);
+    try {
+      const response = await axios.post(`${API}/news`, newArticle);
+      if (response.data.success) {
+        await fetchNews(); // Refresh news list
+        setNewArticle({
+          title: '',
+          excerpt: '',
+          content: '',
+          date: new Date().toISOString().split('T')[0]
+        });
+        setShowAdmin(false);
+      }
+    } catch (error) {
+      console.error('Error adding news:', error);
+      alert('Ошибка добавления новости');
+    }
   };
 
   const formatDate = (dateString) => {
