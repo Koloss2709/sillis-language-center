@@ -19,7 +19,7 @@ EMAIL_FROM=silisykt@mail.ru
 EMAIL_TO=silisykt@mail.ru
 
 # Админ пароль (ОБЯЗАТЕЛЬНО изменить)
-ADMIN_PASSWORD_HASH=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+ADMIN_PASSWORD_HASH=fa00dc9466fc91dbcc7a18c0805598dbf78063d73374fb47d230153b980f5785
 
 # Продакшн настройки
 NODE_ENV=production
