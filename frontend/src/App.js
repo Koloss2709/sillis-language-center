@@ -43,16 +43,16 @@ const Home = () => {
     <div className="min-h-screen">
       <Header />
       <Hero />
+      <Mission />
+      <HowWeDo />
+      <Values />
+      <Geography />
       <ClientSegments />
       <Services />
       <WhyUs />
       <NewPackages />
       <Cases />
       <Testimonials />
-      <Mission />
-      <HowWeDo />
-      <Values />
-      <Geography />
       <FAQ />
       <ContactForm />
       <News />
