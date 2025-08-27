@@ -48,16 +48,25 @@ const ClientSegments = () => {
   return (
     <section id="segments" className="py-20 relative">
       {/* Tree roots divider */}
-      <div className="absolute top-0 left-0 right-0 h-20 overflow-hidden">
-        <svg viewBox="0 0 1200 100" className="w-full h-full">
-          <path d="M0 50 Q200 20 400 50 T800 50 T1200 50 L1200 100 L0 100 Z" 
+      <div className="absolute top-0 left-0 right-0 h-32 overflow-hidden">
+        <svg viewBox="0 0 1200 150" className="w-full h-full">
+          <path d="M0 75 Q200 30 400 75 T800 75 T1200 75 L1200 150 L0 150 Z" 
                 fill="#0E3F2B" 
                 opacity="0.1"/>
-          <path d="M600 0 Q580 25 560 50 Q540 75 520 100 M600 0 Q620 25 640 50 Q660 75 680 100" 
-                stroke="#0E3F2B" 
-                strokeWidth="2" 
-                fill="none" 
-                opacity="0.2"/>
+          <g className="animate-roots-flow">
+            <path d="M600 0 Q580 40 560 80 Q540 120 520 150 M600 0 Q620 40 640 80 Q660 120 680 150" 
+                  stroke="#0E3F2B" 
+                  strokeWidth="3" 
+                  fill="none" 
+                  opacity="0.4"
+                  className="animate-roots-grow"/>
+            <path d="M400 20 Q390 50 380 80 Q370 110 360 150 M800 20 Q810 50 820 80 Q830 110 840 150" 
+                  stroke="#7DB68C" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  opacity="0.6"
+                  className="animate-roots-grow animation-delay-400"/>
+          </g>
         </svg>
       </div>
 
