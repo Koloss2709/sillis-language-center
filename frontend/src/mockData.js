@@ -187,6 +187,17 @@ export const mockNews = [
   }
 ];
 
+export const mockCities = [
+  { name: "Алматы", country: "Казахстан", lat: 43.2380, lng: 76.9452, students: 45 },
+  { name: "Пекин", country: "Китай", lat: 39.9042, lng: 116.4074, students: 28 },
+  { name: "Санкт-Петербург", country: "Россия", lat: 59.9311, lng: 30.3609, students: 67 },
+  { name: "Москва", country: "Россия", lat: 55.7558, lng: 37.6173, students: 134 },
+  { name: "Нью-Йорк", country: "США", lat: 40.7128, lng: -74.0060, students: 23 },
+  { name: "Южно-Сахалинск", country: "Россия", lat: 46.9588, lng: 142.7386, students: 89 },
+  { name: "Якутск", country: "Россия", lat: 62.0397, lng: 129.7319, students: 256 },
+  { name: "Мирный", country: "Россия", lat: 62.5354, lng: 114.0319, students: 78 }
+];
+
 export const mockContacts = {
   email: "silisykt@mail.ru",
   phones: ["8 914 287 0753", "8 964 076 7660"],
