@@ -25,6 +25,9 @@ import Footer from './components/Footer';
 // Pages
 import AdminPage from './pages/AdminPage';
 
+// Data Provider
+import { DataProvider, DataLoader } from './components/DataProvider';
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
