@@ -35,6 +35,11 @@ const Home = () => {
       <Header />
       <Hero />
       <ClientSegments />
+      <Services />
+      <WhyUs />
+      <Packages />
+      <Cases />
+      <Testimonials />
       {/* More components will be added here */}
     </div>
   );
